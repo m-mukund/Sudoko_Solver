@@ -13,41 +13,36 @@ def print_grid(grid):
 	for i in range(9):
 		print(grid[i])
 
-diff=input("Select difficulty (Easy, Medium or Hard: ")
+def get_grid(difficulty):
 
-if diff.lower()=="easy":
-	difficulty=1
-elif diff.lower()=="medium":
-	difficulty=2
-else:
-	difficulty=3
-
-heads={"size":9, "level":difficulty}
-url="http://www.cs.utep.edu/cheon/ws/sudoku/new/"
-response=requests.get(url,params=heads)
-data=response.json()
-grid=[[0 for i in range(9)] for j in range(9)]
+	heads={"size":9, "level":difficulty}
+	url="http://www.cs.utep.edu/cheon/ws/sudoku/new/"
+	response=requests.get(url,params=heads)
+	data=response.json()
+	grid=[[0 for i in range(9)] for j in range(9)]
 
 
-if data["response"]:
-	values=data["squares"]
-	for one in values:
-		r=one["x"]
-		c=one["y"]
-		grid[r][c]=one["value"]
+	if data["response"]:
+		values=data["squares"]
+		for one in values:
+			r=one["x"]
+			c=one["y"]
+			grid[r][c]=one["value"]
 
-string=""
-for i in range(9):
-	for j in grid[i]:
-		if j==0:
-			string+="| |"
-		else:
-			string+="|"
-			string+=str(j)
-			string+="|"
-	string+="\n"
+	return grid
 
-print(string)
-print("Press enter to solve")
-input()
-solve(grid)
+# string=""
+# for i in range(9):
+# 	for j in grid[i]:
+# 		if j==0:
+# 			string+="| |"
+# 		else:
+# 			string+="|"
+# 			string+=str(j)
+# 			string+="|"
+# 	string+="\n"
+
+# print(string)
+# print("Press enter to solve")
+# input()
+# solve(grid)
