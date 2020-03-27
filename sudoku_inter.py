@@ -1,26 +1,24 @@
 from tkinter import *
 from sudoku_api import get_grid,solve
 from sudoku_solver import solver,if_poss
-
+import tkinter.messagebox
 
 root=Tk()
-
+entries=user_inps=[[0 for i in range(9)] for j in range(9)]
 canvas=Canvas(root,height=500,width=450)
 canvas.pack()
 board=[[0 for i in range(9)] for j in range(9)]
 def get(event):
 	return (event.widget.get())
-# entry1=Entry(root)
-# mylabel = canvas.create_text((25,25),text="1")
-# my_entry=canvas.create_window((75,75),height=50,width=50,window=entry1)
-# entry1.bind('<Return>',get)
+
+#Create GUI
+
 def create_board(grid):
 	global canvas
 	global root
 	global board
 	board=grid
-	entries=user_inps=[[0 for i in range(9)] for j in range(9)]
-	user_inps=[[0 for i in range(9)] for j in range(9)]
+	global entries
 	canvas.delete("all")
 	for i in range(9):
 		canvas.create_line(0,i*50,450,i*50)
@@ -33,9 +31,48 @@ def create_board(grid):
 				canvas.create_window(((25+50*j),(25+50*i)),height=50,width=50,window=entry)
 			else:
 				canvas.create_text(((25+50*j),(25+50*i)),text=str(grid[i][j]))
+	check_button=Button(canvas,text="CHECK!!!",font="Times 20 bold")
 	solve_button=Button(canvas,text="SOLVE!!!",font="Times 20 bold")
-	canvas.create_window((225,475),height=50,width=450,window=solve_button)
+	canvas.create_window((122,475),height=50,width=225,window=solve_button)
+	canvas.create_window((347,475),height=50,width=225,window=check_button)
 	solve_button.bind("<Button-1>",get_solved)
+	check_button.bind("<Button-1>",check_correct)
+
+def check_correct(event):
+	global board
+	global entries
+	global canvas
+	for i in range(9):
+		for j in range(9):
+			if board[i][j]==0:
+				if entries[i][j].get():
+					board[i][j]=int(entries[i][j].get())
+				else:
+					board[i][j]=0
+	if is_correct(board):
+		tkinter.messagebox.showinfo("Congratulations!!!!","You have completed the sudoku!!!")
+		canvas.delete("all")
+		for i in range(9):
+			canvas.create_line(0,i*50,450,i*50)
+			canvas.create_line(i*50,0,i*50,450)
+		for i in range(9):
+			for j in range(9):
+				canvas.create_text(((25+50*j),(25+50*i)),text=str(board[i][j]))
+		check_button=Button(canvas,text="CHECK!!!",font="Times 20 bold")
+		solve_button=Button(canvas,text="SOLVE!!!",font="Times 20 bold")
+		canvas.create_window((122,475),height=50,width=225,window=solve_button)
+		canvas.create_window((347,475),height=50,width=225,window=check_button)
+	else:
+		tkinter.messagebox.showinfo("SORRY!!!!","That is not correct!!!")
+
+def is_correct(grid):
+	for i in range(9):
+		for j in range(9):
+			if grid[i][j]==0:
+				return False
+			if not if_poss(grid,i,j,grid[i][j]):
+				return False
+	return True
 	
 def get_solved(event):
 	global board
@@ -80,41 +117,5 @@ med_button.bind("<Button-1>",medium)
 hard_button.bind("<Button-1>",hard)
 
 
-
-
-# num=Label(canvas,text="1")
-# num.pack()
-
-
-
-
-
-# for i in range(1,9):
-# 	canvas.create_line(0,i*50,450,i*50)
-
-# for i in range(1,9):
-# 	canvas.create_line(i*50,0,i*50,450)
-
-# entry1=Entry(root)
-# mylabel = canvas.create_text((25,25),text="1")
-# my_entry=canvas.create_window((75,75),height=50,width=50,window=entry1)
-# entry1.bind('<Return>',get)
-
-
-
-
-
-
-
-
-
-# frame=Frame(root,width=200,height=200)
-# frame.pack()
-# diff_label=Label(frame,text="Select Difficulty")
-# diff_label.pack()
-
-# easy_button.pack()
-# med_button.pack()
-# hard_button.pack()
 
 root.mainloop()

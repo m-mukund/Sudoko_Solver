@@ -1,14 +1,14 @@
 def if_poss(board,r,c,num):
 	for i in range(9):
-		if board[i][c]==num:
+		if board[i][c]==num and i!=r:
 			return False
-		if board[r][i]==num:
+		if board[r][i]==num and i!=c:
 			return False
 	row=r-r%3
 	col=c-c%3
 	for i in range(3):
 		for j in range(3):
-			if board[i+row][j+col]==num:
+			if board[i+row][j+col]==num and (i+row)!=r and (j+col)!=c:
 				return False
 	return True
 
@@ -36,18 +36,3 @@ def solver(board):
 				board[r][c]=0
 	return False
 
-# board=[[2,0,0,0,0,0,0,6,0],
-#        [0,0,0,0,7,5,0,3,0],
-#        [0,4,8,0,9,0,1,0,0],
-#        [0,0,0,3,0,0,0,0,0],
-#        [3,0,0,0,1,0,0,0,9],
-#        [0,0,0,0,0,8,0,0,0],
-#        [0,0,1,0,2,0,5,7,0],
-#        [0,8,0,7,3,0,0,0,0],
-#        [0,9,0,0,0,0,0,0,4]]
-
-# if solver(board):
-# 	for i in range(len(board)):
-# 		print(board[i])
-# else:
-# 	print("NO SOLN")

@@ -31,18 +31,3 @@ def get_grid(difficulty):
 
 	return grid
 
-# string=""
-# for i in range(9):
-# 	for j in grid[i]:
-# 		if j==0:
-# 			string+="| |"
-# 		else:
-# 			string+="|"
-# 			string+=str(j)
-# 			string+="|"
-# 	string+="\n"
-
-# print(string)
-# print("Press enter to solve")
-# input()
-# solve(grid)
